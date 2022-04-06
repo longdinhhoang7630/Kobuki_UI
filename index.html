@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>ROS_UI</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" 
+    crossorigin="anonymous">
+    <link rel="stylesheet" href="./asset/style.css">
+    <style>
+        h4{
+            text-align: center;
+            color: yellow;
+            font-weight: bold;
+            margin: auto;
+            padding-top: 15px;
+            width: 100%;
+        }
+    </style>
+    <script type="text/javascript" src="http://static.robotwebtools.org/EaselJS/current/easeljs.min.js"></script>
+    <script src="https://static.robotwebtools.org/EventEmitter2/current/eventemitter2.min.js"></script>
+    <script src="https://static.robotwebtools.org/roslibjs/current/roslib.min.js"></script>
+    <script type="text/javascript" src="http://static.robotwebtools.org/ros2djs/current/ros2d.min.js"></script>
+    <script src="./asset/webui.js"></script>
+  </head>
+
+
+  <body class="bg-dark">
+    <h1 style="text-align: center; color: antiquewhite; font-weight: bold;">ROBOT WEB INTERFACE</h1>
+    <div class="row">
+        <!-- Camera 01 and Status -->
+        <div class="col-3">
+            <div class="card ml-2 bg-success">
+                <h4>Camera 01</h4>
+                <hr>
+                <div class="card-body">
+                    <p style="font-size: 20px; margin-top: -40px; margin-left: 10px; color: #fff;">Enable   
+                        <label class="switch">
+                            <input type="checkbox" id="checkVideo01" onclick="showCam01()" checked>
+                            <span class="slider round"></span>
+                        </label>
+                    </p>
+                    <div class="col d-flex justify-content-center">
+                        <img src="" class="imgCam" alt="None" id="video01" />
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="card ml-2 bg-success">
+                <h4>Status</h4>
+                <div class="card-body">
+                    <p class="progress-title">Speed</p>
+                    <input type="range" min="15" max="80" class="custom-range" id="robot-speed">
+
+                    <p class="progress-title">CPU</p>
+                    <div class="progress">
+                        <div class="progress-bar" style="width:60%; background-color: orange;">
+                            <div id="cpu" class="progress-value"></div>
+                        </div>
+                    </div>
+
+                    <p class="progress-title">Memory</p>
+                    <div class="progress">
+                        <div class="progress-bar" style="width:100%; background-color: brown;">
+                            <div id="memory" class="progress-value"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Map -->
+        <div class=" col-6">
+            <div class="card bg-success" id="containMap">
+                <h4>Map</h4>
+                <div class="button-group">
+                    <button type="button" class="btn btn-sm btn-primary mr-1">Set Goal</button>
+                    <button type="button" class="btn btn-sm btn-dark mr-1">Add station</button>
+                    <button type="button" class="btn btn-sm btn-danger mr-1">Delete station</button>
+                    <button type="button" class="btn btn-sm btn-warning mr-1">Cancel</button>
+                </div>
+                <div class="col d-flex justify-content-center">
+                    <div class="imgMap" id="map" style="margin-left: auto; margin-right: auto;"></div>
+                </div>
+            </div>
+        </div>
+        <!-- <div id="map" style="margin-left: auto; margin-right: auto;"></div> -->
+
+        <!-- Camera 02 and Parameter -->
+        <div class="col-3">
+            <div class="card mr-2 bg-success">
+                <h4>Camera 02</h4>
+                <hr>
+                <div class="card-body">
+                    <p style="font-size: 20px; margin-top: -40px; margin-left: 10px;color: #fff;">Enable
+                        <label class="switch">
+                            <input type="checkbox" id="checkVideo02" onclick="showCam02()" checked>
+                            <span class="slider round"></span>
+                        </label>
+                    </p>
+                    <div class="col d-flex justify-content-center">
+                        <img src="" class="imgCam" alt="None" id="video02" />
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="card mr-2 bg-success">
+                <h4>Parameter</h4>
+                <div class="card-body">
+                    <p style="font-size:18px; text-align: center; color: #fff;">Linear velocity <span>0.2</span> m/s</p>
+                    <input type="range" min="15" max="80" class="custom-range" id="linear_velocity">
+
+                    <p style="font-size:18px; text-align: center; color: #fff;">Angular velocity <span>0.4</span> rad/s</p>
+                    <input type="range" min="15" max="80" class="custom-range" id="angular_velocity">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Optional JavaScript -->
+    <script src="https://static.robotwebtools.org/keyboardteleopjs/current/keyboardteleop.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+  </body>
+</html>
